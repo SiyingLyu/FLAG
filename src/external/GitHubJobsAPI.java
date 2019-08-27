@@ -20,7 +20,7 @@ public class GitHubJobsAPI {
 //    private static final String DEFAULT_KEYWORD = ""; // no restriction
 //    private static final String API_KEY = "xfpENcPHJH79w70PGVxq8KLpUKBNwwGQ";
 
-    private List<Jobs> search(double lat, double lon) {
+    public List<Jobs> search(double lat, double lon) {
         List<Jobs> jobs = new ArrayList<>();
 
         String query = String.format("lat=%s&long=%s", lat, lon);
@@ -47,10 +47,10 @@ public class GitHubJobsAPI {
                 response.append(line);
             }
             reader.close();
-
+            System.out.print(response.toString());
             // 把内容再转成JSONOArray - 我们拿到的数据就是JSONArray
             JSONArray obj = new JSONArray(response.toString());
-
+            System.out.println("HERE");
             return getJobsList(obj);
         } catch (Exception e) {
             e.printStackTrace();
@@ -58,7 +58,7 @@ public class GitHubJobsAPI {
         return new ArrayList<>();
     }
 
-    private List<Jobs> getJobsList(JSONArray jobsjsons) throws JSONException {
+    public List<Jobs> getJobsList(JSONArray jobsjsons) throws JSONException {
         List<Jobs> jobs = new ArrayList<>();
         for (int i = 0; i < jobsjsons.length(); i++) {
             JSONObject jobsjson = jobsjsons.getJSONObject(i);
@@ -122,9 +122,9 @@ public class GitHubJobsAPI {
     private void queryAPI(double lat, double lon) {
         List<Jobs> jobs = search(lat, lon);
 
-        for (Jobs job : jobs) {
-            System.out.println(job.toJSONObject());
-        }
+//        for (Jobs job : jobs) {
+//            System.out.println(job.toJSONObject());
+//        }
     }
 
     public static void main(String[] args) {
